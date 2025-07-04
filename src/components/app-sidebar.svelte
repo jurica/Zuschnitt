@@ -2,6 +2,7 @@
   import HouseIcon from "@lucide/svelte/icons/house";
   import InfoIcon from "@lucide/svelte/icons/info";
   import SettingsIcon from "@lucide/svelte/icons/settings";
+  import TableCellsMerge from "@lucide/svelte/icons/table-cells-merge";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import { p } from "sv-router/generated";
 
@@ -11,6 +12,11 @@
       title: "Home",
       url: p("/"),
       icon: HouseIcon,
+    },
+    {
+      title: "Sheet 1",
+      url: p("/sheet"),
+      icon: TableCellsMerge,
     },
     {
       title: "About",
@@ -25,10 +31,10 @@
   ];
 </script>
 
-<Sidebar.Root>
+<Sidebar.Root collapsible="icon">
   <Sidebar.Content>
     <Sidebar.Group>
-      <Sidebar.GroupLabel>Application</Sidebar.GroupLabel>
+      <Sidebar.GroupLabel>Zuschnitt</Sidebar.GroupLabel>
       <Sidebar.GroupContent>
         <Sidebar.Menu>
           {#each items as item (item.title)}
