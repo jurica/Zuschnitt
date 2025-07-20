@@ -9,6 +9,7 @@
     "noEmit": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
     "paths": {
       "$src/*": ["./src/*"],
       "$lib": ["./src/lib"],

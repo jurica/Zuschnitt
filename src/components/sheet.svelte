@@ -10,7 +10,7 @@
 
 
 <div
-  class="relative w-[var(--w)] h-[var(--h)] border border-black bg-linear-135 from-slate-100 to-slate-300 z-0"
+  class="flex w-[var(--w)] h-[var(--h)] border border-black bg-linear-135 from-slate-50 to-slate-200 hover:from-slate-100 hover:to-slate-300 z-0"
   style="--w: {width}px; --h: {height}px;"
   onclick={clickedSheet}
 >

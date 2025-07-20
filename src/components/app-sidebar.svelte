@@ -1,10 +1,9 @@
 <script lang="ts">
-  import HouseIcon from "@lucide/svelte/icons/house";
-  import InfoIcon from "@lucide/svelte/icons/info";
-  import SettingsIcon from "@lucide/svelte/icons/settings";
-  import TableCellsMerge from "@lucide/svelte/icons/table-cells-merge";
+  import { Square, Columns4, Grid3x3, HouseIcon, InfoIcon, SettingsIcon } from "@lucide/svelte";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import { p } from "sv-router/generated";
+  import { project } from "$src/project.svelte.ts";
+  import Sheet from "$src/components/sheet.svelte";
 
   // Menu items.
   const items = [
@@ -15,8 +14,8 @@
     },
     {
       title: "Sheet 1",
-      url: p("/sheet"),
-      icon: TableCellsMerge,
+      url: p("/sheets"),
+      icon: Grid3x3,
     },
     {
       title: "About",
@@ -29,6 +28,29 @@
       icon: SettingsIcon,
     },
   ];
+  project.sheets.forEach((sheet, key, map) => {
+    items.push({
+      title: `Sheet: ${sheet.name}`,
+      url: "/sheets",
+      icon: Grid3x3,
+    });
+    sheet.columns.forEach((columnId) => {
+      const column = project.columns.get(columnId);
+      items.push({
+        title: `Column: ${column.name}`,
+        url: "/sheets",
+        icon: Columns4,
+      });
+      column?.parts.forEach((partId, idx) => {
+        const part = project.parts.get(partId);
+        items.push({
+          title: `#${idx} ${part?.name}`,
+          url: "/sheets",
+          icon: Square,
+        });
+      });
+    });
+  });
 </script>
 
 <Sidebar.Root collapsible="icon">
