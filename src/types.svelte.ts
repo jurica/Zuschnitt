@@ -3,8 +3,9 @@ import { SvelteMap, SvelteSet } from "svelte/reactivity";
 export class Project {
   id: string;
   name: string;
-  sheets: Map<string, Sheet>;
-  columns: Map<string, Column>;
+  scale: number;
+  sheets: SvelteMap<string, Sheet>;
+  columns: SvelteMap<string, Column>;
   parts: SvelteMap<string, Part>;
   private _selectedSheetId: string = $state("");
   private _selectedColumnId: string = $state("");
@@ -68,10 +69,11 @@ export class Project {
 
   constructor() {
     this.id = crypto.randomUUID();
-    this.name = "foo";
-    this.sheets = new Map<string, Sheet>();
-    this.columns = new Map<string, Column>();
-    this.parts = $state(new SvelteMap<string, Part>());
+    this.name = $state("foo");
+    this.scale = $state(0.55)
+    this.sheets = new SvelteMap<string, Sheet>();
+    this.columns = new SvelteMap<string, Column>();
+    this.parts = new SvelteMap<string, Part>();
   }
 
   addSheet(): Sheet {
@@ -107,14 +109,14 @@ export class Project {
 export class Sheet {
   id: string;
   name: string;
-  width: number = 2500;
-  height: number = 1250;
+  width: number = $state(2500);
+  height: number = $state(1250);
   columns: SvelteSet<Column>;
   isOpen: boolean;
 
   constructor() {
     this.id = crypto.randomUUID();
-    this.name = "foo";
+    this.name = $state("foo");
     this.columns = $state(new SvelteSet<Column>());
     this.isOpen = true;
   }
@@ -125,18 +127,19 @@ export class Column {
   parentId: string | undefined;
   name: string;
   get width() {
-    return 300;
-    //return Math.max(...Array.from(this.parts.values()).map(part => part.width));
+    return Math.max(...Array.from(this.parts.values()).map(part => part.width));
   }
   parts: SvelteSet<Part>;
+  isOpen: boolean;
 
   constructor(parentId: string | undefined) {
     this.id = crypto.randomUUID();
-    this.name = "foo";
+    this.name = $state("foo");
     this.parts = $state(new SvelteSet<Part>());
     if (parent !== undefined) {
       this.parentId = parentId;
     }
+    this.isOpen = true;
   }
 }
 
@@ -149,7 +152,7 @@ export class Part {
 
   constructor(parentId: string | undefined = undefined) {
     this.id = crypto.randomUUID();
-    this.name = "foo";
+    this.name = $state("foo");
     if (parent !== undefined) {
       this.parentId = parentId;
     }

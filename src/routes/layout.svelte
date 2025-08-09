@@ -2,10 +2,7 @@
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import AppSidebar from "$src/components/app-sidebar.svelte";
   import { Separator } from "$lib/components/ui/separator/index.js";
-  import * as Card from "$lib/components/ui/card/index.js";
   import type { Snippet } from "svelte";
-  import { p } from "sv-router/generated";
-  import { Button } from "$lib/components/ui/button/index.js";
 
   let { children }: { children: Snippet } = $props();
 </script>
