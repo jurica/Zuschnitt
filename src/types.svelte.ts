@@ -26,9 +26,12 @@ export class Project {
       return;
     }
 
+    if (this._selectedSheetId == value) return;
+
     this._selectedSheetId = value;
     // Clear selected column when sheet is selected
     this.selectedColumnId = undefined;
+    this.selectedPartId = undefined;
   }
 
   get selectedColumnId() {
@@ -107,6 +110,166 @@ export class Project {
     }
     this.parts.set(part.id, part);
     return part;
+  }
+
+  deletePart(partId: string): boolean {
+    const part = this.parts.get(partId);
+    if (!part) return false;
+
+    // Remove from parent column if it has one
+    if (part.parentId) {
+      const column = this.columns.get(part.parentId);
+      if (column) {
+        column.parts.delete(part);
+      }
+    }
+
+    // Remove from project
+    this.parts.delete(partId);
+
+    // Clear selection if this part was selected
+    if (this.selectedPartId === partId) {
+      this.selectedPartId = undefined;
+    }
+
+    return true;
+  }
+
+  deleteColumn(columnId: string): boolean {
+    const column = this.columns.get(columnId);
+    if (!column) return false;
+
+    // Delete all parts in this column first
+    for (const part of column.parts.values()) {
+      this.deletePart(part.id);
+    }
+
+    // Remove from parent sheet if it has one
+    if (column.parentId) {
+      const sheet = this.sheets.get(column.parentId);
+      if (sheet) {
+        sheet.columns.delete(column);
+      }
+    }
+
+    // Remove from project
+    this.columns.delete(columnId);
+
+    // Clear selection if this column was selected
+    if (this.selectedColumnId === columnId) {
+      this.selectedColumnId = undefined;
+    }
+
+    return true;
+  }
+
+  deleteSheet(sheetId: string): boolean {
+    const sheet = this.sheets.get(sheetId);
+    if (!sheet) return false;
+
+    // Delete all columns in this sheet first
+    for (const column of sheet.columns.values()) {
+      this.deleteColumn(column.id);
+    }
+
+    // Remove from project
+    this.sheets.delete(sheetId);
+
+    // Clear selection if this sheet was selected
+    if (this.selectedSheetId === sheetId) {
+      this.selectedSheetId = undefined;
+    }
+
+    return true;
+  }
+
+  duplicatePart(partId: string): Part | undefined {
+    const originalPart = this.parts.get(partId);
+    if (!originalPart) return undefined;
+
+    const duplicatedPart = new Part(originalPart.parentId);
+    duplicatedPart.name = originalPart.name + " (copy)";
+    duplicatedPart.width = originalPart.width;
+    duplicatedPart.height = originalPart.height;
+
+    // Add to parent column if it has one
+    if (originalPart.parentId) {
+      const column = this.columns.get(originalPart.parentId);
+      if (column) {
+        column.parts.add(duplicatedPart);
+      }
+    }
+
+    this.parts.set(duplicatedPart.id, duplicatedPart);
+    this.selectedPartId = duplicatedPart.id;
+    return duplicatedPart;
+  }
+
+  duplicateColumn(columnId: string): Column | undefined {
+    const originalColumn = this.columns.get(columnId);
+    if (!originalColumn) return undefined;
+
+    const duplicatedColumn = new Column(originalColumn.parentId);
+    duplicatedColumn.name = originalColumn.name + " (copy)";
+
+    // Add to parent sheet if it has one
+    if (originalColumn.parentId) {
+      const sheet = this.sheets.get(originalColumn.parentId);
+      if (sheet) {
+        sheet.columns.add(duplicatedColumn);
+      }
+    }
+
+    this.columns.set(duplicatedColumn.id, duplicatedColumn);
+
+    // Duplicate all parts in the column
+    for (const originalPart of originalColumn.parts.values()) {
+      const duplicatedPart = new Part(duplicatedColumn.id);
+      duplicatedPart.name = originalPart.name;
+      duplicatedPart.width = originalPart.width;
+      duplicatedPart.height = originalPart.height;
+      
+      duplicatedColumn.parts.add(duplicatedPart);
+      this.parts.set(duplicatedPart.id, duplicatedPart);
+    }
+
+    this.selectedColumnId = duplicatedColumn.id;
+    return duplicatedColumn;
+  }
+
+  duplicateSheet(sheetId: string): Sheet | undefined {
+    const originalSheet = this.sheets.get(sheetId);
+    if (!originalSheet) return undefined;
+
+    const duplicatedSheet = new Sheet();
+    duplicatedSheet.name = originalSheet.name + " (copy)";
+    duplicatedSheet.width = originalSheet.width;
+    duplicatedSheet.height = originalSheet.height;
+
+    this.sheets.set(duplicatedSheet.id, duplicatedSheet);
+
+    // Duplicate all columns in the sheet
+    for (const originalColumn of originalSheet.columns.values()) {
+      const duplicatedColumn = new Column(duplicatedSheet.id);
+      duplicatedColumn.name = originalColumn.name;
+      
+      duplicatedSheet.columns.add(duplicatedColumn);
+      this.columns.set(duplicatedColumn.id, duplicatedColumn);
+
+      // Duplicate all parts in the column
+      for (const originalPart of originalColumn.parts.values()) {
+        const duplicatedPart = new Part(duplicatedColumn.id);
+        duplicatedPart.name = originalPart.name;
+        duplicatedPart.width = originalPart.width;
+        duplicatedPart.height = originalPart.height;
+        
+        duplicatedColumn.parts.add(duplicatedPart);
+        this.parts.set(duplicatedPart.id, duplicatedPart);
+      }
+    }
+
+    this.selectedSheetId = duplicatedSheet.id;
+    return duplicatedSheet;
   }
 }
 
