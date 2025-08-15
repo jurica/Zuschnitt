@@ -37,6 +37,15 @@
       showColumn = true;
     }
   });
+
+  // Handle mouse wheel scroll for numeric inputs
+  function handleScroll(event: WheelEvent, getValue: () => number, setValue: (value: number) => void) {
+    event.preventDefault();
+    const currentValue = getValue();
+    const delta = event.deltaY > 0 ? -1 : 1;
+    const newValue = Math.max(0, currentValue + delta);
+    setValue(newValue);
+  }
 </script>
 
 {#if selectedSheet}
@@ -139,6 +148,7 @@
           bind:value={
             () => selectedPart?.width, (v) => (selectedPart.width = v)
           }
+          onwheel={(e) => handleScroll(e, () => selectedPart?.width || 0, (v) => selectedPart && (selectedPart.width = v))}
         />
         <X class="w-3 h-3 text-muted-foreground" />
         <Input
@@ -148,6 +158,7 @@
           bind:value={
             () => selectedPart?.height, (v) => (selectedPart.height = v)
           }
+          onwheel={(e) => handleScroll(e, () => selectedPart?.height || 0, (v) => selectedPart && (selectedPart.height = v))}
         />
       </div>
     </div>
@@ -324,6 +335,7 @@
           bind:value={
             () => selectedSheet?.width, (v) => (selectedSheet.width = v)
           }
+          onwheel={(e) => handleScroll(e, () => selectedSheet?.width || 0, (v) => selectedSheet && (selectedSheet.width = v))}
         />
         <X class="w-3 h-3 text-muted-foreground" />
         <Input
@@ -333,6 +345,7 @@
           bind:value={
             () => selectedSheet?.height, (v) => (selectedSheet.height = v)
           }
+          onwheel={(e) => handleScroll(e, () => selectedSheet?.height || 0, (v) => selectedSheet && (selectedSheet.height = v))}
         />
       </div>
     </div>
