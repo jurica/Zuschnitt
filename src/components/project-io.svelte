@@ -10,7 +10,6 @@
     getProjectInfo 
   } from "$src/project.svelte";
   import type { Project } from "$src/types.svelte";
-    import { navigate } from "sv-router/generated";
 
   interface Props {
     project: Project;
@@ -75,7 +74,6 @@
         const confirm = window.confirm('Load project from browser storage? This will replace the current project.');
         if (confirm) {
           onProjectImported?.(savedProject);
-          navigate("/sheets");
         }
       } else {
         alert('No saved project found in browser storage.');

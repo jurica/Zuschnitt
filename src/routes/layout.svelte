@@ -5,8 +5,17 @@
   import type { Snippet } from "svelte";
   import ProjectIo from "$src/components/project-io.svelte";
   import { data } from "$src/project.svelte.ts";
+  import type { Project } from "$src/types.svelte";
+    import { navigate } from "sv-router/generated";
 
   let { children }: { children: Snippet } = $props();
+
+  function handleProjectImported(newProject: Project) {
+    // Replace the current project with the imported one
+    //Object.assign(project, newProject);
+    data.project = newProject;
+          navigate("/sheets");
+  }
 </script>
 
 <Sidebar.Provider>
@@ -28,6 +37,6 @@
 <!-- Project Import/Export Controls -->
 {#if data.showProjectIo}
 <div class="fixed top-4 right-4 z-20">
-  <ProjectIo {project} onProjectImported={handleProjectImported} />
+  <ProjectIo project={data.project} onProjectImported={handleProjectImported} />
 </div>
 {/if}
