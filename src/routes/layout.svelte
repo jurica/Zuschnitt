@@ -3,6 +3,8 @@
   import AppSidebar from "$src/components/app-sidebar.svelte";
   import { Separator } from "$lib/components/ui/separator/index.js";
   import type { Snippet } from "svelte";
+  import ProjectIo from "$src/components/project-io.svelte";
+  import { data } from "$src/project.svelte.ts";
 
   let { children }: { children: Snippet } = $props();
 </script>
@@ -15,11 +17,6 @@
     >
       <div class="flex items-center gap-2 px-4">
         <Sidebar.Trigger class="-ml-1" />
-        <Separator
-          orientation="vertical"
-          class="mr-2 data-[orientation=vertical]:h-4"
-        />
-        Zuschnitt
       </div>
     </header>
     <Separator />
@@ -28,3 +25,9 @@
     </div>
   </Sidebar.Inset>
 </Sidebar.Provider>
+<!-- Project Import/Export Controls -->
+{#if data.showProjectIo}
+<div class="fixed top-4 right-4 z-20">
+  <ProjectIo {project} onProjectImported={handleProjectImported} />
+</div>
+{/if}

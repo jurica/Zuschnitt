@@ -1,8 +1,6 @@
 <script lang="ts">
   import Sheet from "$src/components/sheet.svelte";
   import CombinedEditCard from "$src/components/combinedEditCard.svelte";
-  import ProjectIo from "$src/components/project-io.svelte";
-  import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
   import { data } from "$src/project.svelte.ts";
   import type { Project } from "$src/types.svelte";
 
@@ -32,12 +30,6 @@
   <CombinedEditCard />
 </div>
 
-<!-- Project Import/Export Controls -->
-{#if data.showProjectIo}
-<div class="fixed top-4 right-4 z-20">
-  <ProjectIo {project} onProjectImported={handleProjectImported} />
-</div>
-{/if}
 
 <div class="overflow-hidden" style="width: {scaledWidth}px; height: {scaledHeight}px;">
   <div 
