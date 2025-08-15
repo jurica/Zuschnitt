@@ -49,6 +49,8 @@ export class Project {
       return;
     }
 
+    if (this._selectedColumnId === value) return;
+
     this.selectedSheetId = column.parentId;
     this._selectedColumnId = value;
     // Clear selected part when column is selected
@@ -295,6 +297,9 @@ export class Column {
   name: string;
   get width() {
     return Math.max(...Array.from(this.parts.values()).map(part => part.width));
+  }
+  get height() {
+    return Array.from(this.parts.values()).reduce((sum, part) => sum + part.height, 0);
   }
   parts: SvelteSet<Part>;
   isOpen: boolean;
