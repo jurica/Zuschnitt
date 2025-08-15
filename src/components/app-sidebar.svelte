@@ -39,6 +39,9 @@
         title: "Settings",
         url: "#",
         icon: SettingsIcon,
+        onClick: () => {
+          data.showProjectIo = !data.showProjectIo;
+        }
       },
     ];
     return items;
@@ -63,6 +66,12 @@
           {#each items as item (item.title)}
             <Sidebar.MenuItem>
               <Sidebar.MenuButton
+                onclick={(e) => {
+                  if (item.onClick) {
+                    e.preventDefault();
+                    item.onClick();
+                  }
+                }}
               >
                 {#snippet child({ props })}
                   <a href={item.url} {...props}>

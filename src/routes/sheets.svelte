@@ -33,9 +33,11 @@
 </div>
 
 <!-- Project Import/Export Controls -->
+{#if data.showProjectIo}
 <div class="fixed top-4 right-4 z-20">
   <ProjectIo {project} onProjectImported={handleProjectImported} />
 </div>
+{/if}
 
 <div class="overflow-hidden" style="width: {scaledWidth}px; height: {scaledHeight}px;">
   <div 

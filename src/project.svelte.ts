@@ -15,6 +15,7 @@ export {
 //export let project: Data.Project = new Data.Project();
 export let data = $state({
   project: new Data.Project(),
+  showProjectIo: false,
 });
 
 // Initialize with sample data
