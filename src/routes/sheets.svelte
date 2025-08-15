@@ -7,10 +7,10 @@
   import { project } from "$src/project.svelte.ts";
 </script>
 
-<div class="flex pb-2 sticky top-1 z-10">
-  <SheetEditCard />
-  <ColumnEditCard />
+<div class="flex pb-2 fixed bottom-4 right-4 z-10">
   <PartEditCard />
+  <ColumnEditCard />
+  <SheetEditCard />
 </div>
 
 <div class="origin-top-left scale-[var(--scale)]" style="--scale: {project.scale}">

@@ -27,6 +27,8 @@ export class Project {
     }
 
     this._selectedSheetId = value;
+    // Clear selected column when sheet is selected
+    this.selectedColumnId = undefined;
   }
 
   get selectedColumnId() {
@@ -44,8 +46,10 @@ export class Project {
       return;
     }
 
-    this._selectedColumnId = value;
     this.selectedSheetId = column.parentId;
+    this._selectedColumnId = value;
+    // Clear selected part when column is selected
+    this.selectedPartId = undefined;
   }
 
   get selectedPartId() {
@@ -63,8 +67,8 @@ export class Project {
       return;
     }
 
-    this._selectedPartId = value;
     this.selectedColumnId = part.parentId;
+    this._selectedPartId = value;
   }
 
   constructor() {
