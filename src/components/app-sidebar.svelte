@@ -48,7 +48,7 @@
   });
 </script>
 
-<Sidebar.Root collapsible="offcanvas">
+<Sidebar.Root  class="top-(--header-height) h-[calc(100svh-var(--header-height))]!">
   <Sidebar.Header>
     <div class="flex">
       <Grid3x3 class="mr-2" />Zuschnitt

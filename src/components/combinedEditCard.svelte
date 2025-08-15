@@ -2,6 +2,7 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import * as Card from "$lib/components/ui/card/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
+  import { Separator } from "$lib/components/ui/separator/index.js";
   import { X, Trash2, Copy, XCircle, ChevronLeft, ChevronRight, Minimize2, Maximize2, Plus } from "@lucide/svelte";
   import { data } from "$src/project.svelte.ts";
 
@@ -49,7 +50,7 @@
 </script>
 
 {#if selectedSheet}
-<Card.Root class="p-2">
+<div class="p-2">
   {#if isMinimized && selectedPart}
     <!-- Minimized view - only readonly part info -->
     <div class="flex items-center justify-between gap-4">
@@ -73,7 +74,7 @@
          class:grid-cols-3={selectedPart && selectedColumn && showColumn && showSheet}>
       <!-- Part Column -->
       {#if selectedPart}
-      <div class="space-y-1 relative">
+      <div class="space-y-1 relative" class:border-r={selectedColumn && showColumn} class:border-border={selectedColumn && showColumn} class:pr-2={selectedColumn && showColumn}>
       <div class="flex items-center justify-between">
         <h3 class="font-medium text-sm font-bold">Part</h3>
         <div class="flex gap-1">
@@ -166,7 +167,7 @@
 
     <!-- Column Column -->
     {#if selectedColumn && showColumn}
-    <div class="space-y-1 relative">
+    <div class="space-y-1 relative" class:border-r={selectedSheet && showSheet} class:border-border={selectedSheet && showSheet} class:pr-2={selectedSheet && showSheet}>
       <div class="flex items-center justify-between">
         <h3 class="font-medium text-sm font-bold">Column</h3>
         <div class="flex gap-1">
@@ -352,5 +353,5 @@
     {/if}
   </div>
   {/if}
-</Card.Root>
+</div>
 {/if}

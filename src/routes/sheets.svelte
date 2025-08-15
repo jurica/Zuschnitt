@@ -1,6 +1,5 @@
 <script lang="ts">
   import Sheet from "$src/components/sheet.svelte";
-  import CombinedEditCard from "$src/components/combinedEditCard.svelte";
   import { data } from "$src/project.svelte.ts";
   import type { Project } from "$src/types.svelte";
 
@@ -25,11 +24,6 @@
   let scaledWidth = $derived(totalWidth * project.scale);
   let scaledHeight = $derived(totalHeight * project.scale);
 </script>
-
-<div class="flex pb-2 fixed bottom-1 right-2 z-10">
-  <CombinedEditCard />
-</div>
-
 
 <div class="overflow-hidden" style="width: {scaledWidth}px; height: {scaledHeight}px;">
   <div 
