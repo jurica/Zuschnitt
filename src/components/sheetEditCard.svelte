@@ -3,10 +3,10 @@
   import * as Card from "$lib/components/ui/card/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
   import { X } from "@lucide/svelte";
-  import { project } from "$src/project.svelte.ts";
+  import { data } from "$src/project.svelte.ts";
 
   let selectedSheet = $derived.by(() => {
-    return project.sheets.get(project.selectedSheetId!);
+    return data.project.sheets.get(data.project.selectedSheetId!);
   });
 </script>
 
@@ -40,9 +40,9 @@
       </div>
       <Button
         onclick={() => {
-          const column = project.addColumn(selectedSheet.id);
+          const column = data.project.addColumn(selectedSheet.id);
           if (column) {
-            project.addPart(column.id);
+            data.project.addPart(column.id);
           }
         }}>add Column</Button
       >

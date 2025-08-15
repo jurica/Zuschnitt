@@ -9,7 +9,7 @@
   } from "@lucide/svelte";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import { p } from "sv-router/generated";
-  import { project } from "$src/project.svelte.ts";
+  import { data } from "$src/project.svelte.ts";
   import { Button } from "$lib/components/ui/button/index.js";
 
   const formatter = new Intl.NumberFormat("de-DE", {
@@ -54,9 +54,9 @@
   <Sidebar.Content>
     <Sidebar.Group>
 <div class="flex items-center p-1">
-  <Button onclick={() => (project.scale -= 0.05)}>-</Button>
-  <p class="p-1">{formatter.format(project.scale)}</p>
-  <Button onclick={() => (project.scale += 0.05)}>+</Button>
+  <Button onclick={() => (data.project.scale -= 0.05)}>-</Button>
+  <p class="p-1">{formatter.format(data.project.scale)}</p>
+  <Button onclick={() => (data.project.scale += 0.05)}>+</Button>
 </div>
       <Sidebar.GroupContent>
         <Sidebar.Menu>
@@ -79,10 +79,10 @@
     <Sidebar.Group>
       <Sidebar.GroupLabel>Sheets</Sidebar.GroupLabel>
       <Sidebar.Menu>
-        {#each project.sheets.values() as sheet}
+        {#each data.project.sheets.values() as sheet}
           <Sidebar.MenuItem>
             <Sidebar.MenuButton
-              isActive={project.selectedSheetId === sheet.id}
+              isActive={data.project.selectedSheetId === sheet.id}
               onclick={() => {}}
             >
               <Grid3x3 />
@@ -92,7 +92,7 @@
           {#each sheet.columns.values() as column}
             <Sidebar.MenuItem>
               <Sidebar.MenuButton
-                isActive={project.selectedColumnId === column.id}
+                isActive={data.project.selectedColumnId === column.id}
                 onclick={() => {}}
               >
                 <Columns3 class="ml-2"/>
@@ -100,10 +100,10 @@
               </Sidebar.MenuButton>
               {#each column.parts.values() as part}
                 <Sidebar.MenuButton
-                  isActive={project.selectedPartId === part.id}
+                  isActive={data.project.selectedPartId === part.id}
                   onclick={(e) => {
                     e.preventDefault();
-                    project.selectedPartId = part.id;
+                    data.project.selectedPartId = part.id;
                   }}
                 >
                 <RectangleVertical class="ml-3"/>

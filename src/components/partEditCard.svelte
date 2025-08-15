@@ -2,11 +2,11 @@
   import * as Card from "$lib/components/ui/card/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
   import { X } from "@lucide/svelte";
-  import { project } from "$src/project.svelte.ts";
+  import { data } from "$src/project.svelte.ts";
 
   let selectedPart = $derived.by(() => {
     document.getElementById("inputPartWidth")?.focus();
-    return project.parts.get(project.selectedPartId!);
+    return data.project.parts.get(data.project.selectedPartId!);
   });
 </script>
 

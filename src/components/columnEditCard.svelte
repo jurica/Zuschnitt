@@ -2,10 +2,10 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import * as Card from "$lib/components/ui/card/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
-  import { project } from "$src/project.svelte.ts";
+  import { data } from "$src/project.svelte.ts";
 
   let selectedColumn = $derived.by(() => {
-    return project.columns.get(project.selectedColumnId!);
+    return data.project.columns.get(data.project.selectedColumnId!);
   });
 </script>
 
@@ -21,7 +21,7 @@
           () => selectedColumn?.name, (v) => (selectedColumn.name = v)
         }
       />
-      <Button onclick={() => project.addPart(selectedColumn.id)}
+      <Button onclick={() => data.project.addPart(selectedColumn.id)}
         >add Part</Button
       >
     </Card.Content>

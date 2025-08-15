@@ -140,7 +140,7 @@ export class Column {
     this.id = crypto.randomUUID();
     this.name = $state("foo");
     this.parts = $state(new SvelteSet<Part>());
-    if (parent !== undefined) {
+    if (parentId !== undefined) {
       this.parentId = parentId;
     }
     this.isOpen = true;
@@ -157,7 +157,7 @@ export class Part {
   constructor(parentId: string | undefined = undefined) {
     this.id = crypto.randomUUID();
     this.name = $state("foo");
-    if (parent !== undefined) {
+    if (parentId !== undefined) {
       this.parentId = parentId;
     }
     this.width = $state(Math.floor(Math.random() * 500));
