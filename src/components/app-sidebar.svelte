@@ -83,7 +83,10 @@
           <Sidebar.MenuItem>
             <Sidebar.MenuButton
               isActive={data.project.selectedSheetId === sheet.id}
-              onclick={() => {}}
+              onclick={(e) => {
+                e.preventDefault();
+                data.project.selectedSheetId = sheet.id;
+              }}
             >
               <Grid3x3 />
               <span>{sheet.name}</span>
@@ -93,7 +96,10 @@
             <Sidebar.MenuItem>
               <Sidebar.MenuButton
                 isActive={data.project.selectedColumnId === column.id}
-                onclick={() => {}}
+                onclick={(e) => {
+                  e.preventDefault();
+                  data.project.selectedColumnId = column.id;
+                }}
               >
                 <Columns3 class="ml-2"/>
                 {column.name}

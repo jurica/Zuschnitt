@@ -1,8 +1,6 @@
 <script lang="ts">
   import Sheet from "$src/components/sheet.svelte";
-  import SheetEditCard from "$src/components/sheetEditCard.svelte";
-  import ColumnEditCard from "$src/components/columnEditCard.svelte";
-  import PartEditCard from "$src/components/partEditCard.svelte";
+  import CombinedEditCard from "$src/components/combinedEditCard.svelte";
   import ProjectIo from "$src/components/project-io.svelte";
   import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
   import { data } from "$src/project.svelte.ts";
@@ -15,12 +13,23 @@
   }
 
   let project = data.project;
+  let scaledContainer: HTMLDivElement;
+
+  // Calculate the total content dimensions (sheets stack vertically)
+  let totalWidth = $derived(Math.max(...Array.from(project.sheets.values()).map(sheet => sheet.width)) || 0);
+  let totalHeight = $derived((() => {
+    const sheetsHeight = Array.from(project.sheets.values()).reduce((sum, sheet) => sum + sheet.height, 0) || 0;
+    const spacingHeight = Math.max(0, project.sheets.size - 1) * 16; // 16px spacing between sheets
+    return sheetsHeight + spacingHeight;
+  })());
+  
+  // Calculate scaled dimensions
+  let scaledWidth = $derived(totalWidth * project.scale);
+  let scaledHeight = $derived(totalHeight * project.scale);
 </script>
 
-<div class="flex pb-2 fixed bottom-4 right-4 z-10">
-  <PartEditCard />
-  <ColumnEditCard />
-  <SheetEditCard />
+<div class="flex pb-2 fixed bottom-1 right-2 z-10">
+  <CombinedEditCard />
 </div>
 
 <!-- Project Import/Export Controls -->
@@ -28,8 +37,14 @@
   <ProjectIo {project} onProjectImported={handleProjectImported} />
 </div>
 
-<div class="origin-top-left scale-[var(--scale)]" style="--scale: {project.scale}">
-  {#each project.sheets.values() as sheet}
-    <Sheet {sheet} />
-  {/each}
+<div class="overflow-hidden" style="width: {scaledWidth}px; height: {scaledHeight}px;">
+  <div 
+    bind:this={scaledContainer}
+    class="origin-top-left scale-[var(--scale)] space-y-4" 
+    style="--scale: {project.scale}; width: {totalWidth}px; height: {totalHeight}px;"
+  >
+    {#each project.sheets.values() as sheet}
+      <Sheet {sheet} />
+    {/each}
+  </div>
 </div>

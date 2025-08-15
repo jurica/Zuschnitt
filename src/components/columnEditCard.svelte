@@ -10,20 +10,23 @@
 </script>
 
 {#if selectedColumn}
-  <Card.Root>
-    <Card.Header>
-      <Card.Title>Column</Card.Title>
-    </Card.Header>
-    <Card.Content class="-mt-3">
+  <Card.Root class="p-3">
+    <div class="space-y-2">
+      <h3 class="font-medium text-sm">Column</h3>
       <Input
         type="text"
+        placeholder="Column name"
+        class="h-8 text-sm"
         bind:value={
           () => selectedColumn?.name, (v) => (selectedColumn.name = v)
         }
       />
-      <Button onclick={() => data.project.addPart(selectedColumn.id)}
-        >add Part</Button
+      <Button 
+        size="sm" 
+        class="h-7 text-xs w-full"
+        onclick={() => data.project.addPart(selectedColumn.id)}
+        >Add Part</Button
       >
-    </Card.Content>
+    </div>
   </Card.Root>
 {/if}

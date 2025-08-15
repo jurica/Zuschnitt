@@ -11,33 +11,35 @@
 </script>
 
 {#if selectedPart}
-  <Card.Root>
-    <Card.Header>
-      <Card.Title>Part</Card.Title>
-    </Card.Header>
-    <Card.Content class="-mt-3">
+  <Card.Root class="p-3">
+    <div class="space-y-2">
+      <h3 class="font-medium text-sm">Part</h3>
       <Input
         type="text"
+        placeholder="Part name"
+        class="h-8 text-sm"
         bind:value={() => selectedPart?.name, (v) => (selectedPart.name = v)}
       />
-      <div class="flex items-center">
+      <div class="flex items-center gap-1">
         <Input
           id="inputPartWidth"
           type="number"
-          class="w-22"
+          placeholder="W"
+          class="w-20 h-8 text-sm"
           bind:value={
             () => selectedPart?.width, (v) => (selectedPart.width = v)
           }
         />
-        <X />
+        <X class="w-3 h-3 text-muted-foreground" />
         <Input
           type="number"
-          class="w-22"
+          placeholder="H"
+          class="w-20 h-8 text-sm"
           bind:value={
             () => selectedPart?.height, (v) => (selectedPart.height = v)
           }
         />
       </div>
-    </Card.Content>
+    </div>
   </Card.Root>
 {/if}
