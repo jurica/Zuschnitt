@@ -6,6 +6,7 @@
     HouseIcon,
     InfoIcon,
     SettingsIcon,
+    TableIcon,
   } from "@lucide/svelte";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import { p } from "sv-router/generated";
@@ -26,9 +27,14 @@
         icon: HouseIcon,
       },
       {
-        title: "Sheet 1",
+        title: "Sheets",
         url: p("/sheets"),
         icon: Grid3x3,
+      },
+      {
+        title: "Parts Table",
+        url: p("/parts-table"),
+        icon: TableIcon,
       },
       {
         title: "About",
