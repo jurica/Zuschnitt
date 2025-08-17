@@ -47,7 +47,7 @@
 
 <!-- Project Import/Export Controls -->
 {#if data.showProjectIo}
-  <div class="fixed top-4 right-4 z-20">
+  <div class="fixed top-4 right-4 z-100">
     <ProjectIo
       project={data.project}
       onProjectImported={handleProjectImported}
